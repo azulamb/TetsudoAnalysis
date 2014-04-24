@@ -41,7 +41,7 @@ sub Analysis()
       {
         if ( $line =~ /\<DirectPosition\.coordinate\>([0-9\.]+) ([0-9\.]+)\<\/DirectPosition\.coordinate\>/ )
         {
-          ( $st{ $key }{ 'x' }, $st{ $key }{ 'y' } ) = ( $1, $2 );
+          ( $st{ $key }{ 'y' }, $st{ $key }{ 'x' } ) = ( $1, $2 );
         }
       } elsif ( $mode eq 'EB' )
       {
@@ -73,7 +73,7 @@ sub Analysis()
   {
     if ( exists( $st{ $_ }{ 'name' } ) )
     {
-      print FILE join( $split, sprintf( "%.5f", $st{ $_ }{ 'x' } ), sprintf( "%.5f", $st{ $_ }{ 'y' }) , $st{ $_ }{ 'name' } ) . "\n";
+      print FILE join( $split, sprintf( "%.5f", $st{ $_ }{ 'y' } ), sprintf( "%.5f", $st{ $_ }{ 'x' }) , $st{ $_ }{ 'name' } ) . "\n";
     }
   }
   close( FILE );
