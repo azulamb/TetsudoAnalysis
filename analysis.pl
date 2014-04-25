@@ -55,6 +55,13 @@ sub Analysis()
           {
             $st{ $_ }{ 'name' } = $name;
           }
+        } elsif ( $line =~ /\<ksj\:LIN\>(.+)\<\/ksj\:LIN\>/ )
+        {
+          my $name = $1;
+          foreach ( @{ $cv{ $key } } )
+          {
+            $st{ $_ }{ 'line' } = $name;
+          }
         }
       }
 
@@ -73,7 +80,7 @@ sub Analysis()
   {
     if ( exists( $st{ $_ }{ 'name' } ) )
     {
-      print FILE join( $split, sprintf( "%.5f", $st{ $_ }{ 'y' } ), sprintf( "%.5f", $st{ $_ }{ 'x' }) , $st{ $_ }{ 'name' } ) . "\n";
+      print FILE join( $split, sprintf( "%.5f", $st{ $_ }{ 'y' } ), sprintf( "%.5f", $st{ $_ }{ 'x' }) , $st{ $_ }{ 'name' }, $st{ $_ }{ 'line' } ) . "\n";
     }
   }
   close( FILE );

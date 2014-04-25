@@ -30,9 +30,13 @@ sub Analysis()
   open( FILE, "> $out" );
   foreach ( keys( %st ) )
   {
-    $st{ $_ }->{ 'x' } /= $st{ $_ }->{ 'c' };
-    $st{ $_ }->{ 'y' } /= $st{ $_ }->{ 'c' };
-    printf FILE join( $split, sprintf( "%.5f", $st{ $_ }->{ 'y' } ), sprintf( "%.5f", $st{ $_ }->{ 'x' } ), $_ ) . ",\n";
+    if ( 1 < $st{ $_ }->{ 'c' } )
+    {
+      $st{ $_ }->{ 'x' } /= $st{ $_ }->{ 'c' };
+      $st{ $_ }->{ 'y' } /= $st{ $_ }->{ 'c' };
+    }
+    my ( $line, $name ) = split( /\//, $_ );
+    printf FILE join( $split, sprintf( "%.5f", $st{ $_ }->{ 'y' } ), sprintf( "%.5f", $st{ $_ }->{ 'x' } ), $name, $line ) . ",\n";
   }
   close( FILE );
 }
@@ -52,8 +56,8 @@ sub Load()
     if ( $line =~ /$split/ )
     {
       chomp( $line );
-      my( $y, $x, $name ) = split( /$split/, $line );
-      push( @list, { 'id' => $id++, 'x' => $x, 'y' => $y, 'name' => $name } );
+      my( $y, $x, $name, $sline ) = split( /$split/, $line );
+      push( @list, { 'id' => $id++, 'x' => $x, 'y' => $y, 'name' => "$sline/$name" } );
     }
   }
   close( FILE );
